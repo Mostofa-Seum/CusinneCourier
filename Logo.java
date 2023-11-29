@@ -39,7 +39,7 @@ public class Logo extends JFrame {
         icon = new ImageIcon(getClass().getResource("font.jpg"));
         this.setIconImage(icon.getImage());
 
-        pack();
+        
         add(bg);
         setContentPane(bg);
         setVisible(true); 
