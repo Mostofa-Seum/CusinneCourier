@@ -11,13 +11,7 @@ import java.net.URL;
 class BackgroundPanel extends JPanel{
     private Image backgroundImage;
 
-    // public BackgroundPanel (String imagePath)
-    //  {
-    //      this.backgroundImage=new ImageIcon(imagePath).getImage();   
-    // }
-
-      
-
+  
     public BackgroundPanel(String imagePath) {
         URL imgUrl = getClass().getResource(imagePath);
         if (imgUrl != null) {
@@ -192,11 +186,6 @@ public class Login extends JFrame implements ActionListener{
         bg.add(b3);
 
         b3.addActionListener(this);
-
-
-
-         //b3.addActionListener(new ActionListener() {
-
              
 
         add(bg);
