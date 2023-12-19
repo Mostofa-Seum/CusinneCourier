@@ -1,7 +1,9 @@
-package classes;
-
+package source;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import source.LoginPage;
+
 import java.util.*;
 import java.lang.*;
 import java.awt.*;
@@ -46,7 +48,7 @@ class BackgroundPanel1 extends JPanel{
 
 
 
-public class SignUp extends JFrame implements ActionListener {
+public class SignPage extends JFrame implements ActionListener{
 
     BackgroundPanel1 bg;
     ImageIcon icon;
@@ -59,7 +61,7 @@ public class SignUp extends JFrame implements ActionListener {
     JButton b1,b2,b3;
     
 
-    public SignUp()
+    public SignPage()
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0,0,1920,1080 );
@@ -308,20 +310,22 @@ public class SignUp extends JFrame implements ActionListener {
 
 
         b3 = new JButton("<html><u>Login<u><html>");
-        b3.setBounds(540,626,220,22);
-        f = new Font("Segoe UI",Font.BOLD,15);
+        b3.setBounds(660,633,200,23);
+        f = new Font("Segoe UI",Font.BOLD,17);
         b3.setFont(f);
-        b3.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        b3.setBorder(null);
-        b3.setContentAreaFilled(false);
+        b3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+         b3.setBorder(null);
+         b3.setContentAreaFilled(false);
         b3.setForeground(Color.black);
         b3.setBorderPainted(false);
         b3.setFocusPainted(false);
         b3.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
+        b3.setLayout(flowLayout);
         bg.add(b3);
 
-        b1.addActionListener(this);
-        b3.addActionListener(this);
+         b1.addActionListener(this);
+         b3.addActionListener(this);
        
 
 
@@ -333,8 +337,11 @@ public class SignUp extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private void returnLogin(){
-        new Login();
+    
+  
+
+    public void returnLogin(){
+        new LoginPage();
         setVisible(false);
         dispose();
          }
@@ -344,7 +351,7 @@ public class SignUp extends JFrame implements ActionListener {
         try{
             if(ae.getSource()==b1)
             {
-                new Login();
+                new LoginPage();
                 setVisible(false);
                 dispose();
             }
@@ -359,7 +366,7 @@ public class SignUp extends JFrame implements ActionListener {
                 e.printStackTrace();
             }
         }
-}
+    }
         
 
        
