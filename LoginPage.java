@@ -1,4 +1,4 @@
-package classes;
+package source;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -32,7 +32,7 @@ class BackgroundPanel extends JPanel{
 
 }
 
-public class Login extends JFrame implements ActionListener{
+public class LoginPage extends JFrame implements ActionListener{
     
     ImageIcon icon;
     JPanel p1;
@@ -44,7 +44,7 @@ public class Login extends JFrame implements ActionListener{
     JButton b1,b2,b3;
     JCheckBox cb;
 
-    public Login()
+    public LoginPage()
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0,0,1920,1080);
@@ -198,14 +198,14 @@ public class Login extends JFrame implements ActionListener{
     }
 
     private void returnSignUp(){
-        new SignUp();
+        new SignPage();
         setVisible(false);
         dispose();
          }
-    public void actionPerformed(ActionEvent a)
+    public void actionPerformed(ActionEvent ae)
              {
                 try {
-                if (a.getSource() == b3)
+                if (ae.getSource() == b3)
                  {
                   returnSignUp();
                 }
