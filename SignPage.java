@@ -2,7 +2,7 @@ package source;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import source.LoginPage;
+
 
 import java.util.*;
 import java.lang.*;
@@ -101,15 +101,15 @@ public class SignPage extends JFrame implements ActionListener{
         bg.add(l3);
 
 
-        l4 = new JLabel("Country");
+        l4 = new JLabel("Area");
         l4.setBounds(700,242,100,23);
         f = new Font("Segoe UI",Font.BOLD,15);
         l4.setFont(f);
         bg.add(l4);
         
 
-         String[] option = { "Choose Country", "Bangladesh", "India",
-        "Italy", "Germany", "Canada" };
+         String[] option = { "Choose Area", "Bashundhara", "Badda",
+        "Gulsan", "Kuril", "Uttara" };
          religion = new JComboBox<>(option);
          religion.setBounds(700,270,153,23);
          f = new Font("Arial",Font.PLAIN,15);
@@ -286,7 +286,7 @@ public class SignPage extends JFrame implements ActionListener{
         
         Color lightGreen = new Color(144, 238, 144);
         b1 = new JButton("Confirm");
-        b1.setBounds(460,600,100,21);
+        b1.setBounds(460,585,100,21);
         f = new Font("Segoe UI",Font.BOLD,15);
         b1.setFont(f);
         b1.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -298,7 +298,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         Color lightOrange = new Color(255, 102, 102);
         b2 = new JButton("Clear");
-        b2.setBounds(755,600,100,21);
+        b2.setBounds(755,585,100,21);
         f = new Font("Segoe UI",Font.BOLD,15);
         b2.setFont(f);
         b2.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -310,7 +310,7 @@ public class SignPage extends JFrame implements ActionListener{
 
 
         b3 = new JButton("<html><u>Login<u><html>");
-        b3.setBounds(660,633,200,23);
+        b3.setBounds(620,633,200,23);
         f = new Font("Segoe UI",Font.BOLD,17);
         b3.setFont(f);
         b3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -320,8 +320,6 @@ public class SignPage extends JFrame implements ActionListener{
         b3.setBorderPainted(false);
         b3.setFocusPainted(false);
         b3.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
-        b3.setLayout(flowLayout);
         bg.add(b3);
 
          b1.addActionListener(this);
