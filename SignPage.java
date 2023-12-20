@@ -2,8 +2,6 @@ package source;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-
-import javax.swing.JOptionPane;
 import java.util.*;
 import java.lang.*;
 import java.awt.*;
@@ -324,6 +322,7 @@ public class SignPage extends JFrame implements ActionListener{
         bg.add(b3);
 
          b1.addActionListener(this);
+         b2.addActionListener(this);
          b3.addActionListener(this);
        
 
@@ -345,6 +344,22 @@ public class SignPage extends JFrame implements ActionListener{
         setVisible(false);
         dispose();
          }
+
+
+        private void clearFields() {
+        t1.setText("");
+        t2.setText("");
+        t3.setText("");
+        t4.setText("");
+        t5.setText("");
+        t6.setText("");
+        pass.setText("");
+        pass1.setText("");
+        area.setSelectedIndex(0);
+        rb1.setSelected(false);
+        rb2.setSelected(false);
+        rb3.setSelected(false);
+    }
 
     public void actionPerformed(ActionEvent ae)
     {
@@ -381,10 +396,15 @@ public class SignPage extends JFrame implements ActionListener{
                 setVisible(false);
                 dispose();
             }
+            else if(ae.getSource()==b2)
+            {
+                clearFields();
+            }
            else if(ae.getSource()==b3)
             {
                 returnLogin();
             }
+           
          
         }
             catch(Exception e)
