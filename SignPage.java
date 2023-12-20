@@ -3,13 +3,14 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 
-
+import javax.swing.JOptionPane;
 import java.util.*;
 import java.lang.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 
 class BackgroundPanel1 extends JPanel{
@@ -55,7 +56,7 @@ public class SignPage extends JFrame implements ActionListener{
     JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
     Font f;
     JTextField t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
-    JComboBox religion;
+    JComboBox area;
     JRadioButton rb1,rb2,rb3;
     JPasswordField pass,pass1;
     JButton b1,b2,b3;
@@ -110,14 +111,14 @@ public class SignPage extends JFrame implements ActionListener{
 
          String[] option = { "Choose Area", "Bashundhara", "Badda",
         "Gulsan", "Kuril", "Uttara" };
-         religion = new JComboBox<>(option);
-         religion.setBounds(700,270,153,23);
+         area = new JComboBox<>(option);
+         area.setBounds(700,270,153,23);
          f = new Font("Arial",Font.PLAIN,15);
-         religion.setFont(f);
-         religion.setSelectedIndex(0);
-         religion.setBackground(Color.white);
-         religion.setForeground(Color.black);
-         bg.add(religion);
+         area.setFont(f);
+         area.setSelectedIndex(0);
+         area.setBackground(Color.white);
+         area.setForeground(Color.black);
+         bg.add(area);
 
 
         l4 = new JLabel("Gender");
@@ -332,6 +333,7 @@ public class SignPage extends JFrame implements ActionListener{
         setSize(1920,1080);
         setContentPane(bg);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -349,6 +351,32 @@ public class SignPage extends JFrame implements ActionListener{
         try{
             if(ae.getSource()==b1)
             {
+
+                String firstName = t1.getText();
+                String lastName = t2.getText();
+                String dob = t3.getText();
+                String email = t4.getText();
+                String number = t5.getText();
+                String userName = t6.getText();
+                String passWord = pass.getText();
+                String rePass = pass1.getText();
+
+                if(firstName.isEmpty()||lastName.isEmpty()||dob.isEmpty()||
+                email.isEmpty()||number.isEmpty()||number.isEmpty()||userName.isEmpty()||
+                passWord.isEmpty()||rePass.isEmpty()||
+                ("Choose Area".equals(area.getSelectedItem())))
+                {
+                    JOptionPane.showMessageDialog(null, "Please fill all of the fields.", "Warning!",
+                    JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                    if(!passWord.equals(rePass))
+                    {
+                        JOptionPane.showMessageDialog(null,"Password doesnot match",null,2);
+                        return;
+                    }
+                
                 new LoginPage();
                 setVisible(false);
                 dispose();
@@ -365,7 +393,7 @@ public class SignPage extends JFrame implements ActionListener{
             }
         }
     }
-        
+
 
        
 
