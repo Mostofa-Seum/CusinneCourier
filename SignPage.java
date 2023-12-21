@@ -1,13 +1,14 @@
 package source;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
+import source.LoginPage;
 import java.util.*;
 import java.lang.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.io.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
@@ -15,12 +16,7 @@ class BackgroundPanel1 extends JPanel{
    
     private Image backgroundImage;
 
-   
-    //    public  BackgroundPanel1 (String imagePath)
-    //    {
-        
-    //         this.backgroundImage = new ImageIcon(imagePath).getImage();
-    // }
+
 
     public BackgroundPanel1(String imagePath) {
         URL imgUrl = getClass().getResource(imagePath);
@@ -43,10 +39,6 @@ class BackgroundPanel1 extends JPanel{
 }
 
 
-
-
-
-
 public class SignPage extends JFrame implements ActionListener{
 
     BackgroundPanel1 bg;
@@ -58,6 +50,8 @@ public class SignPage extends JFrame implements ActionListener{
     JRadioButton rb1,rb2,rb3;
     JPasswordField pass,pass1;
     JButton b1,b2,b3;
+    // private String enteredUsername;
+    // private String enteredPassword;
     
 
     public SignPage()
@@ -188,7 +182,7 @@ public class SignPage extends JFrame implements ActionListener{
         pass1.setBorder(new LineBorder(Color.black));
         bg.add(pass1);
 
-
+        ButtonGroup genderGroup = new ButtonGroup();
         rb1 = new JRadioButton("Male");
         rb1.setBounds(520,311,100,23);
         f = new Font("Segoe UI",Font.BOLD,15);
@@ -196,6 +190,7 @@ public class SignPage extends JFrame implements ActionListener{
         rb1.setContentAreaFilled(false);
         rb1.setFocusPainted(false);
         rb1.setBorderPainted(false);
+        genderGroup.add(rb1);
         bg.add(rb1);
 
         rb2 = new JRadioButton("Female");
@@ -205,6 +200,7 @@ public class SignPage extends JFrame implements ActionListener{
         rb2.setContentAreaFilled(false);
         rb2.setFocusPainted(false);
         rb2.setBorderPainted(false);
+        genderGroup.add(rb2);
         bg.add(rb2);
 
         rb3 = new JRadioButton("Other");
@@ -214,6 +210,7 @@ public class SignPage extends JFrame implements ActionListener{
         rb3.setContentAreaFilled(false);
         rb3.setFocusPainted(false);
         rb3.setBorderPainted(false);
+        genderGroup.add(rb3);
         bg.add(rb3);
 
 
@@ -336,17 +333,13 @@ public class SignPage extends JFrame implements ActionListener{
         setVisible(true);
     }
 
-    
-  
-
     public void returnLogin(){
         new LoginPage();
         setVisible(false);
         dispose();
          }
 
-
-        private void clearFields() {
+    private void clearFields() {
         t1.setText("");
         t2.setText("");
         t3.setText("");
@@ -361,6 +354,56 @@ public class SignPage extends JFrame implements ActionListener{
         rb3.setSelected(false);
     }
 
+    private boolen integer(String input)
+     {
+        try{
+            Integer.parseInt(input);//throw a NumberFormatException by Integer.pareInt();
+        }
+        catch(NumberFormatException ne)
+        {
+            return false;
+        }
+     }
+
+     private boolen vailedEmail(String Email)
+     {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return Email.matches(emailRegex);
+     }
+
+    private boolean UsernameTaken(String userName) {
+        try {
+            FileReader fr = new FileReader("Login.txt");
+            BufferedReader br = new BufferedReader(fr);//every line check
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.trim().equals("User Name : " + userName)) {           
+                    return true;// Username found, return true
+                }
+                br.readLine();// Skip the password line
+            }
+
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    private void addUser(String userName, String password) {
+        try {
+            FileWriter fw = new FileWriter("Login.txt", true);
+            fw.write("User Name : " + userName + "\n" + "Password : " + password + "\n");
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void actionPerformed(ActionEvent ae)
     {
         try{
@@ -370,12 +413,27 @@ public class SignPage extends JFrame implements ActionListener{
                 String firstName = t1.getText();
                 String lastName = t2.getText();
                 String dob = t3.getText();
-                String email = t4.getText();
+                String email = t4.getText().toLowerCase();
                 String number = t5.getText();
                 String userName = t6.getText();
-                String passWord = pass.getText();
-                String rePass = pass1.getText();
+                String passWord = new String(pass.getPassword());
+                String rePass = new String(pass1.getPassword());
 
+
+                if(!integer(dob)||!integer(number))
+                {
+                    JOptionPane.showMessageDialog(null, " Fill up with integer ",
+                    "Error",JOptionPane.ERROR_MESSAGE );
+                    return;
+                }
+
+                if(!vailedEmail(email))
+                {
+                    JOptionPane.showMessageDialog(this, "Invalid email address.", "Error", JOptionPane.ERROR_MESSAGE);
+                     return;
+                }
+               
+            
                 if(firstName.isEmpty()||lastName.isEmpty()||dob.isEmpty()||
                 email.isEmpty()||number.isEmpty()||number.isEmpty()||userName.isEmpty()||
                 passWord.isEmpty()||rePass.isEmpty()||
@@ -385,14 +443,21 @@ public class SignPage extends JFrame implements ActionListener{
                     JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-
-                    if(!passWord.equals(rePass))
-                    {
-                        JOptionPane.showMessageDialog(null,"Password doesnot match",null,2);
-                        return;
-                    }
+               
+                    if (UsernameTaken(userName)) {
+                        JOptionPane.showMessageDialog(this, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else if (!passWord.equals(rePass)) {
+                        JOptionPane.showMessageDialog(this, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        addUser(userName, passWord);
+                        JOptionPane.showMessageDialog(this, "Registration Successful..!");
+                        // Navigate back to the login page (create an instance of LoginPage)
+                        new LoginPage();
+                        setVisible(false);
+                        dispose();
+                     }
                 
-                new LoginPage();
+                new LoginPage ();
                 setVisible(false);
                 dispose();
             }
@@ -402,6 +467,7 @@ public class SignPage extends JFrame implements ActionListener{
             }
            else if(ae.getSource()==b3)
             {
+
                 returnLogin();
             }
            
