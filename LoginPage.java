@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.io.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 
 class BackgroundPanel extends JPanel{
@@ -43,9 +45,11 @@ public class LoginPage extends JFrame implements ActionListener{
     JPasswordField pass;
     JButton b1,b2,b3;
     JCheckBox cb;
+   
 
     public LoginPage()
     {
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0,0,1920,1080);
         setLayout(null);
@@ -172,7 +176,7 @@ public class LoginPage extends JFrame implements ActionListener{
 
 
 
-        b3 = new JButton("<html><u>SIGN UP<u><html>");
+        b3 = new JButton("<html><u>SIGN UP<u><html>");//SIGN UP Page
         b3.setBounds(350,552,100,30);
         b3.setBackground(Color.white);
         b3.setForeground(Color.black);
@@ -185,6 +189,7 @@ public class LoginPage extends JFrame implements ActionListener{
         b3.setContentAreaFilled(false);
         bg.add(b3);
 
+        b2.addActionListener(this);
         b3.addActionListener(this);
              
 
@@ -197,23 +202,45 @@ public class LoginPage extends JFrame implements ActionListener{
     
     }
 
-    private void returnSignUp(){
-        new SignPage();
-        setVisible(false);
-        dispose();
-         }
-    public void actionPerformed(ActionEvent ae)
-             {
-                try {
-                if (ae.getSource() == b3)
-                 {
-                  returnSignUp();
+
+                     
+    private boolean registeredUser(String userName, String password) {
+        try {
+            FileReader fr = new FileReader("Login.txt");
+            BufferedReader br = new BufferedReader(fr);//check per line
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.trim().equals("User Name : " + userName) && (line = br.readLine()) != null &&
+                        line.trim().equals("Password : " + password)) {
+                    return true;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            fr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == b2) {
+            String userName = tf1.getText();
+            String passWord = new String(pass.getPassword());
+
+            if (registeredUser(userName, passWord)) {
+                JOptionPane.showMessageDialog(this, "Login Successful!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (ae.getSource() == b3) {
+            new SignPage();          
+            setVisible(false);
+            dispose();
         }
     }
-    
+}       
 
-
+       
