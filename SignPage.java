@@ -9,7 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.io.*;
-import java.nio.IOException;
+import java.nio.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.nio.file.FileSystemException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
@@ -44,10 +50,10 @@ public class SignPage extends JFrame implements ActionListener{
 
     BackgroundPanel1 bg;
     ImageIcon icon;
-    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+    JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14;
     Font f;
     JTextField t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
-    JComboBox area;
+    JComboBox area,securityQsn;
     JRadioButton rb1,rb2,rb3;
     JPasswordField pass,pass1;
     JButton b1,b2,b3;
@@ -108,6 +114,7 @@ public class SignPage extends JFrame implements ActionListener{
          area.setBounds(700,270,153,23);
          f = new Font("Arial",Font.PLAIN,15);
          area.setFont(f);
+         area.setCursor(new Cursor(Cursor.HAND_CURSOR));
          area.setSelectedIndex(0);
          area.setBackground(Color.white);
          area.setForeground(Color.black);
@@ -163,9 +170,30 @@ public class SignPage extends JFrame implements ActionListener{
         l8.setForeground(Color.black);
         bg.add(l8);
 
+
+        l9 = new JLabel("Security Question");
+        l9.setBounds(450,530,250,23);
+        f = new Font("Segoe UI",Font.BOLD,17);
+        l9.setFont(f);
+        bg.add(l9);
+        
+        Color Black = new Color(51, 51, 51);
+        l10 = new JLabel("Text your Answer");
+        l10.setBounds(450, 560, 320, 25);
+        f = new Font("Segoe UI", Font.BOLD, 17);
+        l10.setFont(f);
+        l10.setForeground(Black);
+        bg.add(l10);
+
+        l11 = new JLabel("______________________________");
+        l11.setBounds(600, 560, 600, 40);
+        l11.setForeground(Color.black);
+        bg.add(l11);
+
+
         pass = new JPasswordField();
         pass.setBounds(600,470,160,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         pass.setFont(f);
         pass.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         pass.setCaretColor(Color.black);
@@ -175,7 +203,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         pass1 = new JPasswordField();
         pass1.setBounds(600,500,160,21);
-         f = new Font("Segoe UI",Font.PLAIN,15);
+         f = new Font("Segoe UI",Font.BOLD,15);
         pass1.setFont(f);
         pass1.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         pass1.setCaretColor(Color.black);
@@ -218,7 +246,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t1 = new JTextField();//first name
         t1.setBounds(450,210,150,20);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t1.setFont(f);
         t1.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t1.setCaretColor(Color.black);
@@ -229,7 +257,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t2 = new JTextField();//lastname
         t2.setBounds(700,209,150,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t2.setFont(f);
         t2.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t2.setCaretColor(Color.black);
@@ -239,7 +267,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t3 = new JTextField();//DOB
         t3.setBounds(450,271,150,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t3.setFont(f);
         t3.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t3.setCaretColor(Color.black);
@@ -250,7 +278,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t4 = new JTextField();//email textfield position
         t4.setBounds(510,354,250,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t4.setFont(f);
         t4.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t4.setCaretColor(Color.black);
@@ -261,7 +289,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t5 = new JTextField();//Contact Number textfield position
         t5.setBounds(600,395,160,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t5.setFont(f);
         t5.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t5.setCaretColor(Color.black);
@@ -272,7 +300,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         t6 = new JTextField();//UserName textfield position
         t6.setBounds(600,434,160,21);
-        f = new Font("Segoe UI",Font.PLAIN,15);
+        f = new Font("Segoe UI",Font.BOLD,15);
         t6.setFont(f);
         t6.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         t6.setCaretColor(Color.black);
@@ -280,10 +308,36 @@ public class SignPage extends JFrame implements ActionListener{
         t6.setBorder(new LineBorder(Color.black));
         bg.add(t6);
 
+
+
+
+        String[] secQsn = { "Choose a Security Question...", "what's your father's name?", "what's your mother's name?",
+                "whats your favourite pet name?", "what's your favorite sports?", "what's your favourite movie?" };
+        securityQsn = new JComboBox(secQsn);
+        securityQsn.setBounds(600, 530, 250, 25);
+        securityQsn.setSelectedIndex(0);
+        securityQsn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        securityQsn.setBackground(Color.white);
+        bg.add(securityQsn);
+
+
+        
+        t7 = new JTextField();
+        t7.setBounds(600, 560, 500, 30);
+        t7.setForeground(Color.black);
+        t7.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        t7.setCaretColor(Color.black);
+        t7.setBorder(null);
+        t7.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        t7.setOpaque(false);
+        bg.add(t7);
+        
+
+        
         
         Color lightGreen = new Color(144, 238, 144);
         b1 = new JButton("Confirm");
-        b1.setBounds(460,585,100,21);
+        b1.setBounds(460,605,100,21);
         f = new Font("Segoe UI",Font.BOLD,15);
         b1.setFont(f);
         b1.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -295,7 +349,7 @@ public class SignPage extends JFrame implements ActionListener{
 
         Color lightOrange = new Color(255, 102, 102);
         b2 = new JButton("Clear");
-        b2.setBounds(755,585,100,21);
+        b2.setBounds(755,605,100,21);
         f = new Font("Segoe UI",Font.BOLD,15);
         b2.setFont(f);
         b2.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -325,9 +379,9 @@ public class SignPage extends JFrame implements ActionListener{
 
 
          try {
-           boolean fileExists = new File("UserFiles.txt").exists(); // Check if the file already exists
-     
-            fileWriter = new FileWriter("UserFiles.txt", fileExists);// Create a new FileWriter, if the file exists
+            // Constructing an absolute path dynamically
+            String absolutePath = getAbsolutePath("Data/UserFiles.txt");
+            fileWriter = new FileWriter(absolutePath, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -341,6 +395,11 @@ public class SignPage extends JFrame implements ActionListener{
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private String getAbsolutePath(String relativePath) {
+        Path currentRelativePath = Paths.get("");
+        return currentRelativePath.toAbsolutePath().toString() + "/" + relativePath;
     }
 
     public void returnLogin(){
@@ -389,7 +448,7 @@ public class SignPage extends JFrame implements ActionListener{
 
     private boolean UsernameTaken(String userName) {
         try {
-            FileReader fr = new FileReader("UserFiles.txt");
+            FileReader fr = new FileReader("Data/UserFiles.txt");
             BufferedReader br = new BufferedReader(fr);//every line checking
             String line;
 
@@ -418,14 +477,22 @@ public class SignPage extends JFrame implements ActionListener{
             e.printStackTrace();
         }
     }
+    private String getCurrentDateTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return currentDateTime.format(formatter);
+    }
+
 
 
     private void addUser(String firstName, String lastName, String dob, 
-    String selectedArea, String gender, String email, String number, String userName, String password) {
+    String selectedArea, String gender, String email, String number, String userName, String password,
+    String selectedSecurityQsn, String answerText) {
         try{
         fileWriter.write("===============================================\n");
         fileWriter.write("====== ###        User Data          ### ======\n");
         fileWriter.write("===============================================\n\n");
+        fileWriter.write("Registration Date: " + getCurrentDateTime() + "\n\n");
         fileWriter.write("First Name: " + firstName + "\n");
         fileWriter.write("Last Name: " + lastName + "\n");
         fileWriter.write("Date of Birth: " + dob + "\n");
@@ -435,11 +502,68 @@ public class SignPage extends JFrame implements ActionListener{
         fileWriter.write("Contact Number: " + number + "\n");
         fileWriter.write("User Name: " + userName + "\n");
         fileWriter.write("Password: " + password + "\n");
+        fileWriter.write("Security question: " + selectedSecurityQsn + "\n");
+        fileWriter.write("Answer question: " + answerText + "\n");
         fileWriter.write("===============================================\n");
+        fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private void callRegistration() {
+        String firstName = t1.getText();
+        String lastName = t2.getText();
+        String dob = t3.getText();
+        String selectedArea = area.getSelectedItem().toString();
+        String gender = rb1.isSelected() ? "Male" : (rb2.isSelected() ? "Female" : "Other");
+        String email = t4.getText().toLowerCase();
+        String number = t5.getText();
+        String userName = t6.getText();
+        String passWord = new String(pass.getPassword());
+        String rePass = new String(pass1.getPassword());
+        String selectedSecurityQsn = securityQsn.getSelectedItem().toString();
+        String answerText = t7.getText();
+    
+        // Validation checks
+        if (firstName.isEmpty() || lastName.isEmpty() || dob.isEmpty() || email.isEmpty()
+                || number.isEmpty() || userName.isEmpty() || passWord.isEmpty() || rePass.isEmpty()
+                || ("Choose Area".equals(selectedArea)) || ((securityQsn.getSelectedIndex()) == 0)
+                || answerText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill all of the fields.", "Warning!",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+            if (!validDate(dob) || !integer(number)) {
+                JOptionPane.showMessageDialog(null, " Fill up with integer ", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (!vailedEmail(email)) {
+                JOptionPane.showMessageDialog(this, "Invalid email address.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if ("Choose a Security Question...".equals(selectedSecurityQsn) || answerText.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please select a security question and provide an answer.",
+                        "Warning!", JOptionPane.WARNING_MESSAGE);
+                return;
+            } else if (UsernameTaken(userName)) {
+                JOptionPane.showMessageDialog(this, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (!passWord.equals(rePass)) {
+                JOptionPane.showMessageDialog(this, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+    
+        // If all validations pass, proceed with user registration
+        addUser(firstName, lastName, dob, selectedArea, gender, email, number, userName, passWord,
+                selectedSecurityQsn, answerText);
+    
+        // Show success message
+        JOptionPane.showMessageDialog(this, "Registration Successful!");
+    
+        // Navigate to login page
+        returnLogin();
+    }
+    
     
 
 
@@ -449,64 +573,76 @@ public class SignPage extends JFrame implements ActionListener{
             if(ae.getSource()==b1)
             {
 
-                String firstName = t1.getText().toString();
-                String lastName = t2.getText().toString();
-                String dob = t3.getText();
-                String selectedArea = area.getSelectedItem().toString();
-                String gender = rb1.isSelected() ? "Male" : (rb2.isSelected() ? "Female" : "Other");         
-                String email = t4.getText().toLowerCase();
-                String number = t5.getText();
-                String userName = t6.getText();
-                String passWord = new String(pass.getPassword());
-                String rePass = new String(pass1.getPassword());
+                // String firstName = t1.getText().toString();
+                // String lastName = t2.getText().toString();
+                // String dob = t3.getText();
+                // String selectedArea = area.getSelectedItem().toString();
+                // String gender = rb1.isSelected() ? "Male" : (rb2.isSelected() ? "Female" : "Other");         
+                // String email = t4.getText().toLowerCase();
+                // String number = t5.getText();
+                // String userName = t6.getText();
+                // String passWord = new String(pass.getPassword());
+                // String rePass = new String(pass1.getPassword());
+                // String selectedSecurityQsn = securityQsn.getSelectedItem().toString();
+                // String answerText = t7.getText();
 
 
                 
             
-                if(firstName.isEmpty()||lastName.isEmpty()||dob.isEmpty()||
-                email.isEmpty()||number.isEmpty()||number.isEmpty()||userName.isEmpty()||
-                passWord.isEmpty()||rePass.isEmpty()||
-                ("Choose Area".equals(selectedArea)))
-                {
-                    JOptionPane.showMessageDialog(null, "Please fill all of the fields.", "Warning!",
-                    JOptionPane.WARNING_MESSAGE);
-                    return ;
-                }
+                // if(firstName.isEmpty()||lastName.isEmpty()||dob.isEmpty()||
+                // email.isEmpty()||number.isEmpty()||number.isEmpty()||userName.isEmpty()||
+                // passWord.isEmpty()||rePass.isEmpty()||
+                // ("Choose Area".equals(selectedArea))||((securityQsn.getSelectedIndex()) == 0)||answerText.isEmpty())
+                // {
+                //     JOptionPane.showMessageDialog(null, "Please fill all of the fields.", "Warning!",
+                //     JOptionPane.WARNING_MESSAGE);
+                //     return ;
+                // }
 
-                else{
-                    if(!validDate(dob)||!integer(number))
-                {
-                    JOptionPane.showMessageDialog(null, " Fill up with integer ",
-                    "Error",JOptionPane.ERROR_MESSAGE );
-                    return;
-                }
+                // else{
+                //     if(!validDate(dob)||!integer(number))
+                // {
+                //     JOptionPane.showMessageDialog(null, " Fill up with integer ",
+                //     "Error",JOptionPane.ERROR_MESSAGE );
+                //     return;
+                // }
 
-                 else if(!vailedEmail(email))
-                {
-                    JOptionPane.showMessageDialog(this, "Invalid email address.", "Error", JOptionPane.ERROR_MESSAGE);
-                     return;
-                }
+                //  else if(!vailedEmail(email))
+                // {
+                //     JOptionPane.showMessageDialog(this, "Invalid email address.", "Error", JOptionPane.ERROR_MESSAGE);
+                //      return;
+                // }
+
+                //  else if ("Choose a Security Question...".equals(selectedSecurityQsn) || answerText.isEmpty()) {
+                //     JOptionPane.showMessageDialog(null, "Please select a security question and provide an answer.",
+                //             "Warning!", JOptionPane.WARNING_MESSAGE);
+                //     return;
+                // }
                
-                   
-                
-               
-                   else if (UsernameTaken(userName)) {
-                        JOptionPane.showMessageDialog(this, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } else if (!passWord.equals(rePass)) {
-                        JOptionPane.showMessageDialog(this, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    } 
+    
+                //    else if (UsernameTaken(userName)) {
+                //         JOptionPane.showMessageDialog(this, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
+                //         return;
+                //     } else if (!passWord.equals(rePass)) {
+                //         JOptionPane.showMessageDialog(this, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                //         return;
+                //     } 
                     
-                    }
+                //     }
 
-                    addUser(firstName,lastName,dob,selectedArea,gender,email,number,userName,passWord);
-                    JOptionPane.showMessageDialog(this, "Registration Successful..!");
+                //     addUser(firstName,lastName,dob,selectedArea,gender,email,number,
+                //     userName,passWord,selectedSecurityQsn,answerText);
+                //     JOptionPane.showMessageDialog(this, "Registration Successful..!");
                 
-                new LoginPage ();
-                setVisible(false);
-                dispose();
+                // new LoginPage ();
+                // setVisible(false);
+                // dispose();
+
+                 callRegistration();
+                 
             }
+
+
             
             else if(ae.getSource()==b2)
             {
