@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.io.*;
+import java.nio.file.*;
+import java.nio.charset.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 
@@ -46,7 +48,7 @@ public class LoginPage extends JFrame implements ActionListener{
     JPasswordField pass;
     JButton b1,b2,b3,b4,b5,b6;
     JCheckBox cb;
-    private static final File file = new File("UserFiles.txt");
+    private static final File USER_FILE = new File("UserFiles.txt");
    
 
     public LoginPage()
@@ -196,7 +198,10 @@ public class LoginPage extends JFrame implements ActionListener{
         b3.addActionListener(this);
         
 
-        if (file.exists() && !file.isDirectory()) {} 
+        // if (file.exists() && !file.isDirectory()) {} 
+        // else {}
+
+        if (USER_FILE.exists() && !USER_FILE.isDirectory()) {} 
         else {}
              
 
@@ -209,17 +214,74 @@ public class LoginPage extends JFrame implements ActionListener{
     
     }
                   
-    private boolean registeredUser(String userName, String password) {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    // private boolean registeredUser(String userName, String password) {
+    //     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+    //         String line;
+    
+    //         while ((line = br.readLine()) != null) {
+    //             if (line.trim().startsWith("User Name: " + userName)) {
+    //                 // Check the password in the next line
+    //                 line = br.readLine();
+    //                 if (line != null && line.trim().startsWith("Password: " + password.trim())) {
+    //                     return true; // Username and password match
+    //                 }
+    //             }
+    //         }
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    
+    //     return false; // No matching username and password found
+    // }
+    
+    //      public void actionPerformed(ActionEvent ae) {
+    //     if (ae.getSource() == b2) {
+    //         String userName = tf1.getText();
+    //         String passWord = new String(pass.getPassword());
+
+    //         if (userName.trim().isEmpty() || passWord.trim().isEmpty()) {
+    //             JOptionPane.showMessageDialog(this, "Enter your username and password to continue.", "Error", JOptionPane.ERROR_MESSAGE);
+    //             return; 
+    //         }
+    
+
+    //         if (registeredUser(userName, passWord)) {
+    //             JOptionPane.showMessageDialog(this, "Login Successful!");
+    //         } else {
+    //             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+
+    //         }
+    //     }
+    //      else if (ae.getSource() == b3) 
+    //     {
+    //         new SignPage();          
+    //         setVisible(false);
+    //         dispose();
+    //     }
+
+    private boolean isValidUser(String userName, String password) {
+        try (BufferedReader br = new BufferedReader(new FileReader(USER_FILE))) {
             String line;
+            boolean isUsernameFound = false;
     
             while ((line = br.readLine()) != null) {
-                if (line.trim().equals("User Name: " + userName)) {
-                    line = br.readLine(); // Read the next line for the password
-                    if (line != null && line.trim().equals("Password: " + password)) {
+                System.out.println("Line read: " + line); // Debugging line
+    
+                if (line.trim().startsWith("User Name: " + userName)) {
+                    isUsernameFound = true;
+                    // Check the password in the next line
+                    line = br.readLine();
+                    System.out.println("Password line: " + line); // Debugging line
+    
+                    if (line != null && line.trim().startsWith("Password: " + password.trim())) {
                         return true; // Username and password match
                     }
                 }
+            }
+    
+            // Check if the username was found, regardless of the password match
+            if (isUsernameFound) {
+                System.out.println("Username found, but password doesn't match"); // Debugging line
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -227,33 +289,34 @@ public class LoginPage extends JFrame implements ActionListener{
     
         return false; // No matching username and password found
     }
-         public void actionPerformed(ActionEvent ae) {
+    
+    
+    
+
+    public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == b2) {
             String userName = tf1.getText();
             String passWord = new String(pass.getPassword());
 
             if (userName.trim().isEmpty() || passWord.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Enter your username and password to continue.", "Error", JOptionPane.ERROR_MESSAGE);
-                return; 
+                return;
             }
-    
 
-            if (registeredUser(userName, passWord)) {
+            if (isValidUser(userName, passWord)) {
                 JOptionPane.showMessageDialog(this, "Login Successful!");
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-
             }
-        }
-         else if (ae.getSource() == b3) 
-        {
-            new SignPage();          
+        } else if (ae.getSource() == b3) {
+            new SignPage();
             setVisible(false);
             dispose();
         }
+    }
        
         }
-    }
+    
        
 
        
