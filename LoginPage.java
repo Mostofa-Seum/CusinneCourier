@@ -1,5 +1,6 @@
 package source;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -43,8 +44,9 @@ public class LoginPage extends JFrame implements ActionListener{
     Font f1,f2;
     JTextField tf1,tf2;
     JPasswordField pass;
-    JButton b1,b2,b3;
+    JButton b1,b2,b3,b4,b5,b6;
     JCheckBox cb;
+    private static final File file = new File("UserFiles.txt");
    
 
     public LoginPage()
@@ -99,7 +101,7 @@ public class LoginPage extends JFrame implements ActionListener{
         bg.add(l2);
 
         l3 = new JLabel("Don't have an account?");
-        l3.setBounds(155,550,230,30);
+        l3.setBounds(140,550,230,30);
         l3.setForeground(Color.black);
         f1 = new Font("Segoe UI",Font.PLAIN,20);
         l3.setFont(f1);
@@ -150,7 +152,7 @@ public class LoginPage extends JFrame implements ActionListener{
 
 
         b1 = new JButton("Forget Password?");
-        b1.setBounds(272,453,318,33);
+        b1.setBounds(340,453,180,33);
         b1.setBackground(Color.white);
         b1.setForeground(Color.black);
         b1.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -164,7 +166,7 @@ public class LoginPage extends JFrame implements ActionListener{
 
 
         b2 = new JButton("Login");
-        b2.setBounds(100,510,325,30);
+        b2.setBounds(110,510,325,30);
         b2.setBackground(Color.white);
         b2.setForeground(Color.black);
         b2.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -177,7 +179,7 @@ public class LoginPage extends JFrame implements ActionListener{
 
 
         b3 = new JButton("<html><u>SIGN UP<u><html>");//SIGN UP Page
-        b3.setBounds(350,552,100,30);
+        b3.setBounds(333,552,105,30);
         b3.setBackground(Color.white);
         b3.setForeground(Color.black);
         b3.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -189,8 +191,13 @@ public class LoginPage extends JFrame implements ActionListener{
         b3.setContentAreaFilled(false);
         bg.add(b3);
 
+
         b2.addActionListener(this);
         b3.addActionListener(this);
+        
+
+        if (file.exists() && !file.isDirectory()) {} 
+        else {}
              
 
         add(bg);
@@ -201,46 +208,52 @@ public class LoginPage extends JFrame implements ActionListener{
 
     
     }
-
-
-                     
+                  
     private boolean registeredUser(String userName, String password) {
-        try {
-            FileReader fr = new FileReader("Login.txt");
-            BufferedReader br = new BufferedReader(fr);//check per line
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-
+    
             while ((line = br.readLine()) != null) {
-                if (line.trim().equals("User Name : " + userName) && (line = br.readLine()) != null &&
-                        line.trim().equals("Password : " + password)) {
-                    return true;
+                if (line.trim().equals("User Name: " + userName)) {
+                    line = br.readLine(); // Read the next line for the password
+                    if (line != null && line.trim().equals("Password: " + password)) {
+                        return true; // Username and password match
+                    }
                 }
             }
-
-            fr.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return false;
+    
+        return false; // No matching username and password found
     }
-
-    public void actionPerformed(ActionEvent ae) {
+         public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == b2) {
             String userName = tf1.getText();
             String passWord = new String(pass.getPassword());
+
+            if (userName.trim().isEmpty() || passWord.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter your username and password to continue.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; 
+            }
+    
 
             if (registeredUser(userName, passWord)) {
                 JOptionPane.showMessageDialog(this, "Login Successful!");
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+
             }
-        } else if (ae.getSource() == b3) {
+        }
+         else if (ae.getSource() == b3) 
+        {
             new SignPage();          
             setVisible(false);
             dispose();
         }
+       
+        }
     }
-}       
+       
 
        
