@@ -56,9 +56,9 @@ public class SignPage extends JFrame implements ActionListener{
     JComboBox area,securityQsn;
     JRadioButton rb1,rb2,rb3;
     JPasswordField pass,pass1;
-    JButton b1,b2,b3,b4,b5,b6,b7;
-     private FileWriter fileWriter;
-     private static final File USER_FILE = new File("UserFiles.txt");
+    JButton b1,b2,b3,b4,b5,b6,b7,b8;
+    private FileWriter fileWriter;
+    private static final File USER_FILE = new File("UserFiles.txt");
     
     
 
@@ -421,6 +421,18 @@ public class SignPage extends JFrame implements ActionListener{
         b7.setVisible(false);
         bg.add(b7);
 
+
+        b8 = new JButton();
+        b8.setIcon(new ImageIcon("images/return.png"));
+        b8.setBounds(15, 8, 35, 40);
+        b8.setForeground(Color.white);
+        b8.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        b8.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b8.setFocusPainted(false);
+        b8.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b8.setContentAreaFilled(false);
+        bg.add(b8);
+
          b1.addActionListener(this);
          b2.addActionListener(this);
          b3.addActionListener(this);
@@ -428,6 +440,7 @@ public class SignPage extends JFrame implements ActionListener{
          b5.addActionListener(this);
          b6.addActionListener(this);
          b7.addActionListener(this);
+         b8.addActionListener(this);
 
 
          try {
@@ -654,7 +667,14 @@ public class SignPage extends JFrame implements ActionListener{
                 pass1.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
                 b7.setVisible(false);
                 b6.setVisible(true);
-            } else {
+            }
+
+            else if (ae.getSource() == b8) {
+                new LoginPage();
+                dispose();
+               
+            }
+            else {
             }
                 
         }
