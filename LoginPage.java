@@ -194,9 +194,34 @@ public class LoginPage extends JFrame implements ActionListener{
         b3.setContentAreaFilled(false);
         bg.add(b3);
 
+        b4 = new JButton();
+        b4.setIcon(new ImageIcon("images/iconn.png"));
+        b4.setBounds(510, 405, 25, 20);
+        b4.setForeground(Color.black);
+        b4.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        b4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b4.setFocusPainted(false);
+        b4.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b4.setContentAreaFilled(false);
+        bg.add(b4);
+
+        b5 = new JButton();
+        b5.setIcon(new ImageIcon("images/iconnn.png"));
+        b5.setBounds(510, 405, 25, 20);
+        b5.setForeground(Color.white);
+        b5.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        b5.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b5.setFocusPainted(false);
+        b5.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b5.setContentAreaFilled(false);
+        b5.setVisible(false);
+        bg.add(b5);
+
         b1.addActionListener(this);
         b2.addActionListener(this);
         b3.addActionListener(this);
+        b4.addActionListener(this);
+        b5.addActionListener(this);
 
         forgetPass = new ForgetPass();
         
@@ -259,6 +284,20 @@ public class LoginPage extends JFrame implements ActionListener{
             forgetPass.setVisible(true); // Call setVisible on the ForgetPass object
               setVisible(false);
              dispose();
+        }
+        else if (ae.getSource() == b4) {
+            if (pass.getEchoChar() != '\u0000') {
+                pass.setEchoChar('\u0000');
+                b4.setVisible(false);
+                b5.setVisible(true);
+            }
+        }
+
+        else if (ae.getSource() == b5) {
+            pass.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
+            b5.setVisible(false);
+            b4.setVisible(true);
+        } else {
         }
     }
 }
