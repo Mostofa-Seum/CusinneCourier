@@ -56,7 +56,7 @@ public class SignPage extends JFrame implements ActionListener{
     JComboBox area,securityQsn;
     JRadioButton rb1,rb2,rb3;
     JPasswordField pass,pass1;
-    JButton b1,b2,b3;
+    JButton b1,b2,b3,b4,b5,b6,b7;
      private FileWriter fileWriter;
      private static final File USER_FILE = new File("UserFiles.txt");
     
@@ -95,7 +95,7 @@ public class SignPage extends JFrame implements ActionListener{
         l2.setFont(f);
         bg.add(l2);
 
-        l3 = new JLabel("Date of Birth (dd/mm/yyy)");
+        l3 = new JLabel("Date of Birth (dd-mm-yyyy)");
         l3.setBounds(450,242,250,23);
         f = new Font("Segoe UI",Font.BOLD,15);
         l3.setFont(f);
@@ -374,9 +374,60 @@ public class SignPage extends JFrame implements ActionListener{
         b3.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         bg.add(b3);
 
+        b4 = new JButton();
+        b4.setIcon(new ImageIcon("images/iconn.png"));
+        b4.setBounds(770, 473, 25, 20);
+        b4.setForeground(Color.black);
+        b4.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        b4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b4.setFocusPainted(false);
+        b4.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b4.setContentAreaFilled(false);
+        bg.add(b4);
+
+        b5 = new JButton();
+        b5.setIcon(new ImageIcon("images/iconnn.png"));
+        b5.setBounds(770, 473, 25, 20);
+        b5.setForeground(Color.white);
+        b5.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        b5.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b5.setFocusPainted(false);
+        b5.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b5.setContentAreaFilled(false);
+        b5.setVisible(false);
+        bg.add(b5);
+
+
+        b6 = new JButton();
+        b6.setIcon(new ImageIcon("images/iconn.png"));
+        b6.setBounds(770, 500, 25, 20);
+        b6.setForeground(Color.black);
+        b6.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        b6.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b6.setFocusPainted(false);
+        b6.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b6.setContentAreaFilled(false);
+        bg.add(b6);
+
+        b7 = new JButton();
+        b7.setIcon(new ImageIcon("images/iconnn.png"));
+        b7.setBounds(770, 500, 25, 20);
+        b7.setForeground(Color.white);
+        b7.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        b7.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        b7.setFocusPainted(false);
+        b7.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        b7.setContentAreaFilled(false);
+        b7.setVisible(false);
+        bg.add(b7);
+
          b1.addActionListener(this);
          b2.addActionListener(this);
          b3.addActionListener(this);
+         b4.addActionListener(this);
+         b5.addActionListener(this);
+         b6.addActionListener(this);
+         b7.addActionListener(this);
 
 
          try {
@@ -386,8 +437,6 @@ public class SignPage extends JFrame implements ActionListener{
             e.printStackTrace();
         }
        
-
-
 
         add(bg);
         setSize(1920,1080);
@@ -500,7 +549,7 @@ public class SignPage extends JFrame implements ActionListener{
         fileWriter.write("User Name: " + userName + "\n");
         fileWriter.write("Password: " + password + "\n");
         fileWriter.write("Security question: " + selectedSecurityQsn + "\n");
-        fileWriter.write("Answer question: " + answerText + "\n");
+        fileWriter.write("Answer : " + answerText + "\n");
         fileWriter.write("===============================================\n");
         fileWriter.close();
         } catch (IOException e) {
@@ -567,7 +616,7 @@ public class SignPage extends JFrame implements ActionListener{
                  callRegistration();
                  
             }
-  
+          
             else if(ae.getSource()==b2)
             {
                 clearFields();
@@ -576,7 +625,38 @@ public class SignPage extends JFrame implements ActionListener{
             {
 
                 returnLogin();
-            }    
+            }
+
+            else if (ae.getSource() == b4) {
+                if (pass.getEchoChar() != '\u0000') {
+                    pass.setEchoChar('\u0000');
+                    b4.setVisible(false);
+                    b5.setVisible(true);
+                }
+            }
+    
+            else if (ae.getSource() == b5) {
+                pass.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
+                b5.setVisible(false);
+                b4.setVisible(true);
+            } 
+            
+
+            else if (ae.getSource() == b6) {
+                if (pass1.getEchoChar() != '\u0000') {
+                    pass1.setEchoChar('\u0000');
+                    b6.setVisible(false);
+                    b7.setVisible(true);
+                }
+            }
+
+            else if (ae.getSource() == b7) {
+                pass1.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
+                b7.setVisible(false);
+                b6.setVisible(true);
+            } else {
+            }
+                
         }
             catch(Exception e)
             {
