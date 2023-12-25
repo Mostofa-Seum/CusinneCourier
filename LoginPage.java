@@ -48,6 +48,7 @@ public class LoginPage extends JFrame implements ActionListener{
     JPasswordField pass;
     JButton b1,b2,b3,b4,b5,b6;
     JCheckBox cb;
+    private ForgetPass forgetPass; 
     private static final File USER_FILE = new File("Data/UserFiles.txt");
    
 
@@ -193,13 +194,15 @@ public class LoginPage extends JFrame implements ActionListener{
         b3.setContentAreaFilled(false);
         bg.add(b3);
 
-
+        b1.addActionListener(this);
         b2.addActionListener(this);
         b3.addActionListener(this);
+
+        forgetPass = new ForgetPass();
         
 
-        if (USER_FILE.exists() && !USER_FILE.isDirectory()) {} 
-        else {}
+        if (USER_FILE.exists() && !USER_FILE.isDirectory()) {}      
+        else {} 
              
         add(bg);
         setContentPane(bg);
@@ -250,9 +253,16 @@ public class LoginPage extends JFrame implements ActionListener{
             new SignPage();
             setVisible(false);
             dispose();
+        }     
+        else if (ae.getSource() == b1) {
+
+            forgetPass.setVisible(true); // Call setVisible on the ForgetPass object
+              setVisible(false);
+             dispose();
         }
     }
 }
+
     
        
 
