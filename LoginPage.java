@@ -127,7 +127,7 @@ public class LoginPage extends JFrame implements ActionListener{
         tf1.setForeground(Color.black);
         tf1.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         tf1.setCaretColor(Color.black);
-        f1 = new Font("Segoe UI",Font.PLAIN,18);
+        f1 = new Font("Segoe UI",Font.BOLD,18);
         tf1.setFont(f1);
         tf1.setBorder( new LineBorder(Color.black));
         bg.add(tf1);
